@@ -1,1 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Animal and Their Food</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Baloo 2',cursive;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:#fffafc;
+}
+
+/* INTRO */
+
+#intro{
+
+position:fixed;
+inset:0;
+
+background:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+#intro img{
+
+width:260px;
+max-width:80%;
+
+}
+
+/* GAME */
+
+#game{
+
+display:none;
+
+width:100%;
+height:100%;
+
+overflow:hidden;
+
+background:
+linear-gradient(
+180deg,
+#fffafc,
+#fffef5
+);
+
+}
+
+/* HEADER */
+
+#titleBar{
+
+height:60px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#ffd8ea;
+
+font-size:30px;
+font-weight:700;
+
+color:#ff4d88;
+
+box-shadow:
+0 3px 8px rgba(0,0,0,.15);
+
+}
+
+#progress{
+
+background:white;
+
+text-align:center;
+
+padding:8px;
+
+font-size:18px;
+font-weight:700;
+
+color:#666;
+
+}
+
+/* MAIN */
+
+#main{
+
+height:
+calc(100vh - 100px);
+
+overflow:auto;
+
+padding:10px;
+
+}
+
+.layout{
+
+max-width:1200px;
+
+margin:auto;
+
+display:flex;
+
+gap:20px;
+
+align-items:flex-start;
+
+justify-content:center;
+
+}
+
+/* WHEEL SIDE */
+
+#wheelArea{
+
+flex:1;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+#wheelContainer{
+
+position:relative;
+
+width:420px;
+height:420px;
+
+max-width:90vw;
+max-height:90vw;
+
+}
+
+/* ARROW */
+
+#arrow{
+
+position:absolute;
+
+top:-18px;
+
+left:50%;
+
+transform:
+translateX(-50%);
+
+font-size:52px;
+
+z-index:20;
+
+}
+
+/* ROTATING WHEEL */
+
+#wheel{
+
+width:100%;
+height:100%;
+
+border-radius:50%;
+
+transition:
+transform 5s cubic-bezier(.17,.67,.14,1);
+
+transform-origin:center center;
+
+}
+
+#wheelCanvas{
+
+width:100%;
+height:100%;
+
+border-radius:50%;
+
+background:white;
+
+border:8px solid white;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.20);
+
+}
+
+/* SPIN BUTTON */
+
+#spinBtn{
+
+position:absolute;
+
+left:50%;
+top:50%;
+
+transform:
+translate(-50%,-50%);
+
+width:95px;
+height:95px;
+
+border:none;
+
+border-radius:50%;
+
+background:#ff4d88;
+
+color:white;
+
+font-size:28px;
+font-weight:700;
+
+cursor:pointer;
+
+z-index:30;
+
+box-shadow:
+0 4px 12px rgba(0,0,0,.25);
+
+}
+
+/* SELECTED ANIMAL */
+
+#selectedAnimal{
+
+margin-top:15px;
+
+background:white;
+
+padding:12px 25px;
+
+border-radius:18px;
+
+min-height:60px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:24px;
+font-weight:700;
+
+color:#555;
+
+box-shadow:
+0 2px 8px rgba(0,0,0,.12);
+
+}
+
+/* ANSWERS */
+
+#answerArea{
+
+width:360px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+.answerBox{
+
+background:white;
+
+border-radius:20px;
+
+padding:12px;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+cursor:pointer;
+
+border:4px solid transparent;
+
+transition:.25s;
+
+box-shadow:
+0 3px 10px rgba(0,0,0,.15);
+
+}
+
+.answerBox:hover{
+
+transform:scale(1.02);
+
+}
+
+.answerBox img{
+
+width:60px;
+height:60px;
+
+object-fit:contain;
+
+}
+
+.answerText{
+
+font-size:24px;
+font-weight:700;
+
+color:#555;
+
+}
+
+/* FEEDBACK */
+
+#feedback{
+
+position:fixed;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+font-size:90px;
+
+display:none;
+
+pointer-events:none;
+
+z-index:5000;
+
+}
+
+/* COMPLETE SCREEN */
+
+#completeScreen{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:
+rgba(255,255,255,.96);
+
+z-index:9999;
+
+justify-content:center;
+align-items:center;
+flex-direction:column;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+#completeScreen h1{
+
+font-size:60px;
+
+margin-bottom:20px;
+
+}
+
+#completeScreen p{
+
+font-size:30px;
+
+max-width:700px;
+
+color:#555;
+
+}
+
+#restartBtn{
+
+margin-top:25px;
+
+padding:15px 40px;
+
+border:none;
+
+border-radius:20px;
+
+background:#ff4d88;
+
+color:white;
+
+font-size:24px;
+
+cursor:pointer;
+
+}
+
+/* CONFETTI */
+
+.confetti{
+
+position:fixed;
+
+top:-20px;
+
+font-size:28px;
+
+pointer-events:none;
+
+animation:
+fall 4s linear forwards;
+
+}
+
+@keyframes fall{
+
+0%{
+transform:
+translateY(-20px)
+rotate(0deg);
+opacity:1;
+}
+
+100%{
+transform:
+translateY(110vh)
+rotate(720deg);
+opacity:0;
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.layout{
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+#wheelContainer{
+
+width:320px;
+height:320px;
+
+}
+
+#answerArea{
+
+width:100%;
+max-width:500px;
+
+}
+
+.answerText{
+
+font-size:20px;
+
+}
+
+#titleBar{
+
+font-size:22px;
+
+}
+
+#selectedAnimal{
+
+font-size:20px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- INTRO -->
+
+<div id="intro">
+
+<img
+src="assets/innovine-logo.png"
+alt="Innovine">
+
+</div>
+
+<!-- GAME -->
+
+<div id="game">
+
+<div id="titleBar">
+
+Animal and Their Food
+
+</div>
+
+<div id="progress">
+
+Completed: 0 / 6
+
+</div>
+
+<div id="main">
+
+<div class="layout">
+
+<!-- WHEEL -->
+
+<div id="wheelArea">
+
+<div id="wheelContainer">
+
+<div id="arrow">⬇️</div>
+
+<div id="wheel">
+
+<canvas
+id="wheelCanvas"
+width="500"
+height="500">
+</canvas>
+
+</div>
+
+<button id="spinBtn">
+Spin
+</button>
+
+</div>
+
+<div id="selectedAnimal">
+
+Tap Spin
+
+</div>
+
+</div>
+
+<!-- ANSWERS -->
+
+<div id="answerArea">
+
+<div
+class="answerBox"
+data-answer="herbivore">
+
+<img
+src="assets/grass.png">
+
+<div class="answerText">
+
+Herbivores
+
+</div>
+
+</div>
+
+<div
+class="answerBox"
+data-answer="omnivore">
+
+<div style="
+display:flex;
+align-items:center;
+gap:4px;">
+
+<img src="assets/grass.png">
+
+<img src="assets/meat.png">
+
+</div>
+
+<div class="answerText">
+
+Omnivores
+
+</div>
+
+</div>
+
+<div
+class="answerBox"
+data-answer="carnivore">
+
+<img
+src="assets/meat.png">
+
+<div class="answerText">
+
+Carnivores
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="feedback"></div>
+
+<div id="completeScreen">
+
+<h1>
+🎉 ⭐ 👏
+</h1>
+
+<p>
+
+Fantastic! You matched all the animals with their correct food categories!
+
+</p>
+
+<button id="restartBtn">
+
+Play Again
+
+</button>
+
+</div>
+
+<audio
+id="correctSound"
+src="assets/correct.mp3">
+</audio>
+
+<audio
+id="wrongSound"
+src="assets/wrong.mp3">
+</audio>
+
+<audio
+id="bgMusic"
+loop
+src="assets/background-music.mp3">
+</audio>
+
+<script>
+
+const ASSET_PATH =
+"assets/";
+
+const animals = [
+"lion",
+"tiger",
+"monkey",
+"bear",
+"elephant",
+"zebra"
+];
+
+const answers = {
+
+lion:"carnivore",
+tiger:"carnivore",
+
+monkey:"omnivore",
+bear:"omnivore",
+
+elephant:"herbivore",
+zebra:"herbivore"
+
+};
+
+const animalImages = {};
+
+const completedAnimals = [];
+
+let currentAnimal = null;
+
+let currentRotation = 0;
+
+const canvas =
+document.getElementById(
+"wheelCanvas"
+);
+
+const ctx =
+canvas.getContext("2d");
+
+const wheel =
+document.getElementById(
+"wheel"
+);
+
+const spinBtn =
+document.getElementById(
+"spinBtn"
+);
+
+const selectedAnimal =
+document.getElementById(
+"selectedAnimal"
+);
+
+const feedback =
+document.getElementById(
+"feedback"
+);/* =====================================
+   SPEECH
+===================================== */
+
+function speak(text){
+
+speechSynthesis.cancel();
+
+const msg =
+new SpeechSynthesisUtterance(text);
+
+msg.rate = 0.9;
+
+speechSynthesis.speak(msg);
+
+}
+
+/* =====================================
+   FEEDBACK
+===================================== */
+
+function showCorrect(){
+
+document
+.getElementById("correctSound")
+.play();
+
+feedback.innerHTML = "👏";
+
+feedback.style.display = "block";
+
+setTimeout(()=>{
+
+feedback.style.display="none";
+
+},1000);
+
+}
+
+function showWrong(){
+
+document
+.getElementById("wrongSound")
+.play();
+
+feedback.innerHTML = "❌";
+
+feedback.style.display = "block";
+
+setTimeout(()=>{
+
+feedback.style.display="none";
+
+},1000);
+
+}
+
+/* =====================================
+   LOAD IMAGES
+===================================== */
+
+let loadedCount = 0;
+
+animals.forEach(animal=>{
+
+const img = new Image();
+
+img.onload = ()=>{
+
+loadedCount++;
+
+if(
+loadedCount === animals.length
+){
+
+drawWheel();
+
+}
+
+};
+
+img.src =
+ASSET_PATH + animal + ".png";
+
+animalImages[
+animal
+] = img;
+
+});
+
+/* =====================================
+   DRAW WHEEL
+===================================== */
+
+function drawWheel(){
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+const total =
+animals.length;
+
+const angle =
+(2*Math.PI)/total;
+
+const colours = [
+
+"#ffd6e7",
+"#d8f8d8",
+"#fff0b8",
+"#d7f0ff",
+"#ffe0c7",
+"#ead9ff"
+
+];
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+const start =
+i * angle;
+
+const end =
+start + angle;
+
+/* SEGMENT */
+
+ctx.beginPath();
+
+ctx.moveTo(
+250,
+250
+);
+
+ctx.arc(
+250,
+250,
+240,
+start,
+end
+);
+
+ctx.closePath();
+
+ctx.fillStyle =
+colours[
+i % colours.length
+];
+
+ctx.fill();
+
+ctx.strokeStyle =
+"#ffffff";
+
+ctx.lineWidth = 4;
+
+ctx.stroke();
+
+/* IMAGE */
+
+const mid =
+start + angle/2;
+
+const x =
+250 +
+Math.cos(mid) * 140;
+
+const y =
+250 +
+Math.sin(mid) * 140;
+
+ctx.save();
+
+ctx.translate(
+x,
+y
+);
+
+ctx.rotate(
+mid + Math.PI/2
+);
+
+ctx.drawImage(
+animalImages[
+animals[i]
+],
+-35,
+-35,
+70,
+70
+);
+
+ctx.restore();
+
+}
+
+/* CENTER */
+
+ctx.beginPath();
+
+ctx.arc(
+250,
+250,
+55,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle =
+"#ffffff";
+
+ctx.fill();
+
+ctx.lineWidth = 4;
+
+ctx.strokeStyle =
+"#ff4d88";
+
+ctx.stroke();
+
+}
+
+/* =====================================
+   REMAINING ANIMALS
+===================================== */
+
+function getRemainingAnimals(){
+
+return animals.filter(
+animal =>
+!completedAnimals.includes(
+animal
+)
+);
+
+}
+
+/* =====================================
+   PROGRESS
+===================================== */
+
+function updateProgress(){
+
+document.getElementById(
+"progress"
+).innerHTML =
+
+`Completed:
+${completedAnimals.length}
+/ 6`;
+
+}/* =====================================
+   SPIN WHEEL
+===================================== */
+
+spinBtn.addEventListener(
+"click",
+spinWheel
+);
+
+function spinWheel(){
+
+const remaining =
+getRemainingAnimals();
+
+if(
+remaining.length === 0
+){
+return;
+}
+
+/* PICK RANDOM
+   REMAINING ANIMAL */
+
+currentAnimal =
+
+remaining[
+Math.floor(
+Math.random() *
+remaining.length
+)
+];
+
+const animalIndex =
+animals.indexOf(
+currentAnimal
+);
+
+const segmentAngle =
+360 / animals.length;
+
+/* CALCULATE TARGET */
+
+const targetAngle =
+
+360 -
+(
+animalIndex *
+segmentAngle +
+segmentAngle/2
+);
+
+/* EXTRA SPINS */
+
+const extraSpins =
+
+360 *
+(
+5 +
+Math.floor(
+Math.random()*3
+)
+);
+
+currentRotation +=
+
+extraSpins +
+targetAngle;
+
+/* SPIN */
+
+wheel.style.transform =
+
+`rotate(
+${currentRotation}deg
+)`;
+
+/* DISABLE BUTTON */
+
+spinBtn.disabled = true;
+
+selectedAnimal.innerHTML =
+"Spinning...";
+
+/* WAIT FOR SPIN */
+
+setTimeout(()=>{
+
+selectedAnimal.innerHTML =
+
+currentAnimal;
+
+speak(
+currentAnimal
+);
+
+spinBtn.disabled = false;
+
+},5000);
+
+}
+
+/* =====================================
+   ANSWER BOXES
+===================================== */
+
+const answerBoxes =
+
+document.querySelectorAll(
+".answerBox"
+);
+
+answerBoxes.forEach(box=>{
+
+box.addEventListener(
+"click",
+()=>{
+
+checkAnswer(
+box.dataset.answer
+);
+
+}
+);
+
+});
+
+/* =====================================
+   CHECK ANSWER
+===================================== */
+
+function checkAnswer(
+chosenAnswer
+){
+
+if(
+currentAnimal === null
+){
+
+speak(
+"Spin the wheel first"
+);
+
+return;
+
+}
+
+const correctAnswer =
+
+answers[
+currentAnimal
+];
+
+/* CORRECT */
+
+if(
+chosenAnswer ===
+correctAnswer
+){
+
+showCorrect();
+
+const praise = [
+
+"Great Job",
+"Excellent",
+"Well Done",
+"Fantastic",
+"Super"
+
+];
+
+const message =
+
+praise[
+Math.floor(
+Math.random() *
+praise.length
+)
+];
+
+selectedAnimal.innerHTML =
+
+`${currentAnimal}
+✅
+${message}`;
+
+speak(
+message
+);
+
+/* ADD TO COMPLETED */
+
+if(
+!completedAnimals.includes(
+currentAnimal
+)
+){
+
+completedAnimals.push(
+currentAnimal
+);
+
+}
+
+updateProgress();
+
+/* HIGHLIGHT */
+
+answerBoxes.forEach(box=>{
+
+box.style.border =
+"4px solid transparent";
+
+});
+
+document.querySelector(
+
+`[data-answer="${correctAnswer}"]`
+
+).style.border =
+
+"4px solid #59d959";
+
+/* RESET */
+
+currentAnimal = null;
+
+/* CHECK GAME END */
+
+checkCompletion();
+
+}
+
+/* WRONG */
+
+else{
+
+showWrong();
+
+speak(
+"Try Again"
+);
+
+answerBoxes.forEach(box=>{
+
+box.style.border =
+"4px solid transparent";
+
+});
+
+document.querySelector(
+
+`[data-answer="${chosenAnswer}"]`
+
+).style.border =
+
+"4px solid #ff6666";
+
+}
+
+}/* =====================================
+   COMPLETION CHECK
+===================================== */
+
+function checkCompletion(){
+
+if(
+completedAnimals.length === 6
+){
+
+setTimeout(()=>{
+
+showCompletion();
+
+},1000);
+
+}
+
+}
+
+/* =====================================
+   CONFETTI
+===================================== */
+
+function createConfetti(){
+
+const emojis = [
+
+"🎉",
+"⭐",
+"👏",
+"🎊",
+"🌟"
+
+];
+
+for(
+let i=0;
+i<60;
+i++
+){
+
+const confetti =
+document.createElement(
+"div"
+);
+
+confetti.className =
+"confetti";
+
+confetti.innerHTML =
+
+emojis[
+Math.floor(
+Math.random() *
+emojis.length
+)
+];
+
+confetti.style.left =
+Math.random()*100 + "vw";
+
+confetti.style.animationDelay =
+Math.random()*2 + "s";
+
+document.body.appendChild(
+confetti
+);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},4500);
+
+}
+
+}
+
+/* =====================================
+   COMPLETION SCREEN
+===================================== */
+
+function showCompletion(){
+
+document.getElementById(
+"completeScreen"
+).style.display =
+"flex";
+
+showCorrect();
+
+createConfetti();
+
+speak(
+
+"Fantastic. You matched all the animals with their correct food categories."
+
+);
+
+}
+
+/* =====================================
+   RESTART BUTTON
+===================================== */
+
+document.getElementById(
+"restartBtn"
+).addEventListener(
+"click",
+()=>{
+location.reload();
+}
+);
+
+/* =====================================
+   BACKGROUND MUSIC
+===================================== */
+
+const bgMusic =
+document.getElementById(
+"bgMusic"
+);
+
+function startMusic(){
+
+bgMusic.volume = 0.25;
+
+bgMusic.play()
+.catch(()=>{});
+
+document.removeEventListener(
+"click",
+startMusic
+);
+
+document.removeEventListener(
+"touchstart",
+startMusic
+);
+
+}
+
+document.addEventListener(
+"click",
+startMusic
+);
+
+document.addEventListener(
+"touchstart",
+startMusic
+);
+
+/* =====================================
+   INTRO SCREEN
+===================================== */
+
+setTimeout(()=>{
+
+document.getElementById(
+"intro"
+).style.display =
+"none";
+
+document.getElementById(
+"game"
+).style.display =
+"block";
+
+updateProgress();
+
+speak(
+
+"Welcome to Animal and Their Food. Spin the wheel and choose the correct food category for each animal."
+
+);
+
+},5000);
+
+/* =====================================
+   PRELOAD FOOD IMAGES
+===================================== */
+
+const grassImg =
+new Image();
+
+grassImg.src =
+ASSET_PATH +
+"grass.png";
+
+const meatImg =
+new Image();
+
+meatImg.src =
+ASSET_PATH +
+"meat.png";
+
+/* =====================================
+   SAFETY
+===================================== */
+
+window.onerror = function(
+msg,
+url,
+line
+){
+
+console.log(
+"Game Error:",
+msg,
+line
+);
+
+return false;
+
+};
+
+</script>
+
+</body>
+</html>
