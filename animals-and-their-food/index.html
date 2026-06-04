@@ -170,19 +170,12 @@ max-height:90vw;
 /* ARROW */
 
 #arrow{
-
 position:absolute;
-
-top:-25px;
-
+top:-35px;
 left:50%;
-
 transform:translateX(-50%);
-
-font-size:60px;
-
+font-size:70px;
 z-index:100;
-
 }
 
 /* ROTATING WHEEL */
@@ -551,7 +544,7 @@ Completed: 0 / 6
 
 <div id="wheelContainer">
 
-<div id="arrow">▼</div>
+<div id="arrow">⬇️</div>
 
 <div id="wheel">
 
@@ -911,13 +904,15 @@ ctx.stroke();
 const mid =
 start + angle/2;
 
+const imageRadius = 130;
+
 const x =
 250 +
-Math.cos(mid) * 150;
+Math.cos(mid) * imageRadius;
 
 const y =
 250 +
-Math.sin(mid) * 150;
+Math.sin(mid) * imageRadius;
 
 ctx.save();
 
@@ -1026,50 +1021,57 @@ Math.random()*remaining.length
 )
 ];
 
-/* locate segment */
+/* animal index */
 
 const animalIndex =
 animals.indexOf(
 currentAnimal
 );
 
-/* 6 sections */
+/* six equal sections */
 
 const segmentAngle =
 360 / animals.length;
 
-/* centre of section */
+/* EXACT IMAGE CENTRE */
 
-const centreOfSegment =
+const imageCentreAngle =
 (animalIndex * segmentAngle)
 +
 (segmentAngle / 2);
 
-/* arrow fixed at top */
+/* arrow sits at 270° (top) */
 
-const targetRotation =
-360 - centreOfSegment;
+const arrowAngle = 270;
 
-/* extra spins */
+/* rotate wheel so image centre aligns
+   exactly beneath arrow */
+
+let stopAngle =
+arrowAngle -
+imageCentreAngle;
+
+/* keep positive */
+
+while(stopAngle < 0){
+stopAngle += 360;
+}
 
 const extraSpins =
 360 *
 (
 5 +
-Math.floor(
-Math.random()*3
-)
+Math.floor(Math.random()*3)
 );
 
-/* reset wheel so it lands exactly */
-
 currentRotation =
-currentRotation +
 extraSpins +
-targetRotation;
+stopAngle;
 
 wheel.style.transform =
 `rotate(${currentRotation}deg)`;
+
+/* disable button */
 
 spinBtn.disabled = true;
 
