@@ -173,16 +173,15 @@ max-height:90vw;
 
 position:absolute;
 
-top:-18px;
+top:-25px;
 
 left:50%;
 
-transform:
-translateX(-50%);
+transform:translateX(-50%);
 
-font-size:52px;
+font-size:60px;
 
-z-index:20;
+z-index:100;
 
 }
 
@@ -552,7 +551,7 @@ Completed: 0 / 6
 
 <div id="wheelContainer">
 
-<div id="arrow">⬇️</div>
+<div id="arrow">▼</div>
 
 <div id="wheel">
 
@@ -914,11 +913,11 @@ start + angle/2;
 
 const x =
 250 +
-Math.cos(mid) * 140;
+Math.cos(mid) * 150;
 
 const y =
 250 +
-Math.sin(mid) * 140;
+Math.sin(mid) * 150;
 
 ctx.save();
 
@@ -1014,47 +1013,46 @@ function spinWheel(){
 const remaining =
 getRemainingAnimals();
 
-if(
-remaining.length === 0
-){
+if(remaining.length===0){
 return;
 }
 
-/* PICK RANDOM
-   REMAINING ANIMAL */
+/* choose animal */
 
 currentAnimal =
-
 remaining[
 Math.floor(
-Math.random() *
-remaining.length
+Math.random()*remaining.length
 )
 ];
+
+/* locate segment */
 
 const animalIndex =
 animals.indexOf(
 currentAnimal
 );
 
+/* 6 sections */
+
 const segmentAngle =
 360 / animals.length;
 
-/* CALCULATE TARGET */
+/* centre of section */
 
-const targetAngle =
+const centreOfSegment =
+(animalIndex * segmentAngle)
++
+(segmentAngle / 2);
 
-360 -
-(
-animalIndex *
-segmentAngle +
-segmentAngle/2
-);
+/* arrow fixed at top */
 
-/* EXTRA SPINS */
+const targetRotation =
+360 - centreOfSegment;
+
+/* extra spins */
 
 const extraSpins =
-
 360 *
 (
 5 +
@@ -1063,37 +1061,27 @@ Math.random()*3
 )
 );
 
-currentRotation +=
+/* reset wheel so it lands exactly */
 
+currentRotation =
+currentRotation +
 extraSpins +
-targetAngle;
-
-/* SPIN */
+targetRotation;
 
 wheel.style.transform =
-
-`rotate(
-${currentRotation}deg
-)`;
-
-/* DISABLE BUTTON */
+`rotate(${currentRotation}deg)`;
 
 spinBtn.disabled = true;
 
 selectedAnimal.innerHTML =
 "Spinning...";
 
-/* WAIT FOR SPIN */
-
 setTimeout(()=>{
 
 selectedAnimal.innerHTML =
-
 currentAnimal;
 
-speak(
-currentAnimal
-);
+speak(currentAnimal);
 
 spinBtn.disabled = false;
 
