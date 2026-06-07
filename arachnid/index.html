@@ -483,7 +483,7 @@ const col = index % 3;
 const row = Math.floor(index / 3);
 
 slot.style.backgroundPosition =
-`${col * -100}% ${row * -100}%`;
+`${col * 50}% ${row * 100}%`;
 
 slot.innerHTML = "";
 
@@ -517,7 +517,7 @@ pieceNumber / 3
 );
 
 piece.style.backgroundPosition =
-`${col * -100}% ${row * -100}%`;
+`${col * 50}% ${row * 100}%`;
 
 piece.dataset.homeSide =
 index < 3
@@ -692,23 +692,23 @@ piece.removeEventListener(
 startDrag
 );
 
-piece.removeAttribute(
-"style"
-);
-
-piece.className =
-"puzzlePiece";
-
 piece.style.position =
 "absolute";
 
 piece.style.left = "0";
 piece.style.top = "0";
 
-piece.style.width = "100%";
-piece.style.height = "100%";
+piece.style.width =
+"100%";
 
-piece.style.borderRadius = "0";
+piece.style.height =
+"100%";
+
+piece.style.margin =
+"0";
+
+piece.style.zIndex =
+"10";
 
 piece.style.cursor =
 "default";
