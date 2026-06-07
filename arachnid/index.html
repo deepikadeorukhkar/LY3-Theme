@@ -115,12 +115,23 @@ box-shadow:0 5px 15px rgba(0,0,0,0.15);
 }
 
 .slot{
-border:2px dashed #bdbdbd;
+
 position:relative;
-background-image:url('assets/spiderimage.png');
-background-size:300% 200%;
+
+overflow:hidden;
+
+border:2px dashed #bdbdbd;
+
+background-image:
+url('assets/spiderimage.png');
+
+background-size:
+300% 200%;
+
 background-repeat:no-repeat;
+
 opacity:0.25;
+
 }
 
 .puzzlePiece{
@@ -677,10 +688,7 @@ cleanupDrag();
 
 }
 
-function snapPieceToSlot(
-piece,
-slot
-){
+function snapPieceToSlot(piece, slot){
 
 playCorrect();
 
@@ -691,34 +699,41 @@ piece.removeEventListener(
 startDrag
 );
 
-piece.removeAttribute(
-"style"
-);
+piece.removeAttribute("style");
 
-piece.className =
-"puzzlePiece";
+piece.className = "puzzlePiece";
 
-piece.style.position =
-"absolute";
+/* lock piece inside slot */
 
-piece.style.left = "0";
-piece.style.top = "0";
+piece.style.position = "absolute";
 
-piece.style.width = "100%";
-piece.style.height = "100%";
+piece.style.left = "-2px";
+piece.style.top = "-2px";
+
+/* cover entire slot including border */
+
+piece.style.width =
+"calc(100% + 4px)";
+
+piece.style.height =
+"calc(100% + 4px)";
 
 piece.style.borderRadius = "0";
 
 piece.style.cursor =
 "default";
 
+piece.style.zIndex = "5";
+
 slot.appendChild(piece);
+
+/* hide guide image once correct piece placed */
+
+slot.style.opacity = "1";
 
 completedPieces++;
 
-speak(
-"Good job!"
-);
+speak("Good job!");
 
 if(completedPieces === 6){
 
@@ -731,6 +746,7 @@ puzzleComplete();
 }
 
 }
+
 function wrongPlacement(){
 
 playWrong();
