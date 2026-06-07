@@ -118,10 +118,21 @@ box-shadow:0 5px 15px rgba(0,0,0,0.15);
 border:2px dashed #bdbdbd;
 position:relative;
 overflow:hidden;
+}
+
+.slot::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background-image:url('assets/spiderimage.png');
 background-size:300% 200%;
 background-repeat:no-repeat;
-opacity:1;
+background-position:var(--bgpos);
+opacity:0.25;
+pointer-events:none;
 }
 
 .puzzlePiece{
@@ -482,8 +493,10 @@ slots.forEach((slot,index)=>{
 const col = index % 3;
 const row = Math.floor(index / 3);
 
-slot.style.backgroundPosition =
-`${col * 50}% ${row * 100}%`;
+slot.style.setProperty(
+'--bgpos',
+`${col * 50}% ${row * 100}%`
+);
 
 slot.innerHTML = "";
 
