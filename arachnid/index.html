@@ -491,29 +491,9 @@ slot.innerHTML = "";
 const pieceIndexes =
 [0,1,2,3,4,5];
 
-/* FISHER-YATES SHUFFLE */
-
-for(
-let i = pieceIndexes.length - 1;
-i > 0;
-i--
-){
-
-const j =
-Math.floor(
-Math.random() * (i + 1)
+pieceIndexes.sort(
+()=>Math.random()-0.5
 );
-
-[
-pieceIndexes[i],
-pieceIndexes[j]
-] =
-[
-pieceIndexes[j],
-pieceIndexes[i]
-];
-
-}
 
 pieceIndexes.forEach(
 (pieceNumber,index)=>{
@@ -1036,4 +1016,3 @@ animateConfetti
 
 </body>
 </html>
-
