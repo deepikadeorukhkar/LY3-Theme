@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Arachnids</title>
 
@@ -13,7 +13,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
@@ -64,10 +64,6 @@ button:hover{
 transform:scale(1.05);
 }
 
-/* ------------------
-INTRO
------------------- */
-
 #introScreen{
 background:linear-gradient(
 to bottom,
@@ -82,10 +78,6 @@ max-width:80%;
 margin-bottom:20px;
 }
 
-/* ------------------
-PUZZLE SCREEN
------------------- */
-
 #puzzleScreen{
 background:#eefcff;
 }
@@ -93,279 +85,124 @@ background:#eefcff;
 #puzzleContainer{
 width:100%;
 max-width:1100px;
-
 display:flex;
 justify-content:center;
 align-items:center;
 gap:30px;
-
 margin-top:20px;
 }
 
-/* LEFT + RIGHT COLUMNS */
-
 .pieceColumn{
 width:130px;
-
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-
 gap:15px;
 }
 
-/* CENTRE PUZZLE BOARD */
-
 #puzzleBoard{
-
 width:420px;
 height:280px;
-
 display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-grid-template-rows:
-repeat(2,1fr);
-
+grid-template-columns:repeat(3,1fr);
+grid-template-rows:repeat(2,1fr);
 border:5px solid #7ec8e3;
-
 border-radius:20px;
-
 background:white;
-
 overflow:hidden;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.15);
-
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
 }
-
-/* EMPTY SLOTS */
 
 .slot{
-
 border:2px dashed #bdbdbd;
-
 position:relative;
-
-background-image:
-url('assets/spiderimage.png');
-
-background-size:
-300% 200%;
-
+background-image:url('assets/spiderimage.png');
+background-size:300% 200%;
 background-repeat:no-repeat;
-
 opacity:0.25;
-
 }
 
-/* DRAG PIECES */
-
 .puzzlePiece{
-
 width:110px;
 height:110px;
-
 border-radius:14px;
-
-background-image:
-url('assets/spiderimage.png');
-
-background-size:
-300% 200%;
-
+background-image:url('assets/spiderimage.png');
+background-size:300% 200%;
 background-repeat:no-repeat;
-
 cursor:pointer;
-
 touch-action:none;
-
-box-shadow:
-0 4px 10px rgba(0,0,0,0.2);
-
-transition:
-transform .2s;
-
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+transition:transform .2s;
 }
 
 .puzzlePiece:active{
 transform:scale(1.08);
 }
 
-/* ------------------
-MAZE
------------------- */
-
-#mazeScreen{
-background:#f9fff4;
-}
-
-#mazeWrapper{
-
-position:relative;
-
-width:90vw;
-max-width:700px;
-
-}
-
-#mazeImage{
-
-width:100%;
-display:block;
-
-border-radius:20px;
-
-}
-
-#mazeSpider{
-
-position:absolute;
-
-width:60px;
-
-left:20px;
-top:20px;
-
-cursor:pointer;
-
-touch-action:none;
-
-z-index:10;
-
-}
-
-#webGoal{
-
-position:absolute;
-
-width:80px;
-
-right:15px;
-bottom:15px;
-
-}
-
-/* ------------------
-CELEBRATION
------------------- */
-
 #celebrationScreen{
-
-background:
-linear-gradient(
+background:linear-gradient(
 to bottom,
 #fff7cc,
 #ffffff
 );
-
 }
 
 #finalMessage{
-
 font-size:48px;
-
 font-weight:bold;
-
 color:#ff8c42;
-
 margin-bottom:20px;
-
 text-align:center;
-
 }
 
 #emojiRow{
-
 font-size:60px;
-
 margin-bottom:20px;
-
 }
-
-/* ------------------
-FEEDBACK
------------------- */
 
 #feedback{
-
 position:fixed;
-
 top:50%;
 left:50%;
-
-transform:
-translate(-50%,-50%);
-
+transform:translate(-50%,-50%);
 font-size:90px;
-
 display:none;
-
 z-index:999;
-
 }
-
-/* ------------------
-CONFETTI
------------------- */
 
 #confetti{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 pointer-events:none;
-
 z-index:998;
-
 }
-
-/* ------------------
-MOBILE
------------------- */
 
 @media(max-width:900px){
 
 #puzzleContainer{
-
 flex-direction:column;
-
 gap:15px;
-
 }
 
 .pieceColumn{
-
 flex-direction:row;
-
 width:auto;
-
 }
 
 #puzzleBoard{
-
 width:90vw;
 height:60vw;
-
 max-width:420px;
 max-height:280px;
-
 }
 
 .puzzlePiece{
-
 width:90px;
 height:90px;
-
 }
 
 }
@@ -373,14 +210,12 @@ height:90px;
 </style>
 
 </head>
-
 <body>
-
 <canvas id="confetti"></canvas>
 
 <div id="feedback"></div>
 
-<!-- INTRO -->
+<!-- INTRO SCREEN -->
 
 <div id="introScreen" class="screen active">
 
@@ -397,16 +232,16 @@ margin-top:10px;
 text-align:center;
 color:#5b4b8a;
 ">
-Game 1: Complete the spider puzzle
+Complete the spider puzzle.
 </p>
 
 </div>
 
-<!-- PUZZLE -->
+<!-- PUZZLE SCREEN -->
 
 <div id="puzzleScreen" class="screen">
 
-<h2>Game 1: Complete the spider puzzle</h2>
+<h2>Complete the Spider Puzzle</h2>
 
 <div id="puzzleContainer">
 
@@ -435,6 +270,8 @@ class="pieceColumn">
 </div>
 
 </div>
+
+<!-- CELEBRATION SCREEN -->
 
 <div
 id="celebrationScreen"
@@ -481,11 +318,6 @@ document.getElementById(
 "puzzleScreen"
 );
 
-const mazeScreen =
-document.getElementById(
-"mazeScreen"
-);
-
 const celebrationScreen =
 document.getElementById(
 "celebrationScreen"
@@ -526,7 +358,27 @@ document.getElementById(
 "wrongSound"
 );
 
+const slots =
+document.querySelectorAll(
+".slot"
+);
+
 let completedPieces = 0;
+let draggedPiece = null;
+
+const celebrationMessages = [
+
+"Great Job!",
+
+"Excellent!",
+
+"Fantastic Work!",
+
+"You completed the spider puzzle!",
+
+"Super Spider Helper!"
+
+];
 
 function showScreen(screen){
 
@@ -562,16 +414,15 @@ utterance
 );
 
 }
-
 function showTick(){
 
-feedback.innerHTML="✓";
-feedback.style.color="green";
-feedback.style.display="block";
+feedback.innerHTML = "✓";
+feedback.style.color = "green";
+feedback.style.display = "block";
 
 setTimeout(()=>{
 
-feedback.style.display="none";
+feedback.style.display = "none";
 
 },800);
 
@@ -579,32 +430,17 @@ feedback.style.display="none";
 
 function showCross(){
 
-feedback.innerHTML="✗";
-feedback.style.color="red";
-feedback.style.display="block";
+feedback.innerHTML = "✗";
+feedback.style.color = "red";
+feedback.style.display = "block";
 
 setTimeout(()=>{
 
-feedback.style.display="none";
+feedback.style.display = "none";
 
 },800);
 
 }
-
-setTimeout(()=>{
-
-showScreen(
-puzzleScreen
-);
-
-speak(
-"Welcome to Arachnids. Complete the spider puzzle."
-);
-
-},5000);
-/* -----------------------
-AUDIO HELPERS
------------------------ */
 
 function playCorrect(){
 
@@ -620,10 +456,6 @@ wrongSound.play();
 
 }
 
-/* -----------------------
-START BACKGROUND MUSIC
------------------------ */
-
 document.addEventListener(
 "pointerdown",
 ()=>{
@@ -637,21 +469,6 @@ bgMusic.play()
 {once:true}
 );
 
-/* -----------------------
-PUZZLE VARIABLES
------------------------ */
-
-const slots =
-document.querySelectorAll(
-".slot"
-);
-
-let draggedPiece = null;
-
-/* -----------------------
-CREATE PUZZLE
------------------------ */
-
 function createPuzzle(){
 
 leftPieces.innerHTML = "";
@@ -659,17 +476,10 @@ rightPieces.innerHTML = "";
 
 completedPieces = 0;
 
-/* -----------------------
-SET SLOT GUIDE IMAGE
------------------------ */
-
 slots.forEach((slot,index)=>{
 
-const col =
-index % 3;
-
-const row =
-Math.floor(index / 3);
+const col = index % 3;
+const row = Math.floor(index / 3);
 
 slot.style.backgroundPosition =
 `${col * 50}% ${row * 100}%`;
@@ -678,26 +488,38 @@ slot.innerHTML = "";
 
 });
 
-/* -----------------------
-CREATE 6 PIECES
------------------------ */
-
 const pieceIndexes =
 [0,1,2,3,4,5];
 
-/* RANDOM ORDER */
+/* FISHER-YATES SHUFFLE */
 
-pieceIndexes.sort(
-()=>Math.random()-0.5
+for(
+let i = pieceIndexes.length - 1;
+i > 0;
+i--
+){
+
+const j =
+Math.floor(
+Math.random() * (i + 1)
 );
+
+[
+pieceIndexes[i],
+pieceIndexes[j]
+] =
+[
+pieceIndexes[j],
+pieceIndexes[i]
+];
+
+}
 
 pieceIndexes.forEach(
 (pieceNumber,index)=>{
 
 const piece =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 piece.className =
 "puzzlePiece";
@@ -716,16 +538,15 @@ pieceNumber / 3
 piece.style.backgroundPosition =
 `${col * 50}% ${row * 100}%`;
 
-/* STORE ORIGINAL POSITION */
-
 piece.dataset.homeSide =
 index < 3
 ? "left"
 : "right";
 
-/* ADD TO SIDE COLUMN */
+if(Math.random() < 0.5){
 
-if(index < 3){
+piece.dataset.homeSide =
+"left";
 
 leftPieces.appendChild(
 piece
@@ -733,40 +554,23 @@ piece
 
 }else{
 
+piece.dataset.homeSide =
+"right";
+
 rightPieces.appendChild(
 piece
 );
 
 }
 
-/* ENABLE DRAGGING */
-
-enablePuzzleDrag(
-piece
-);
-
-});
-
-}
-
-/* -----------------------
-DRAG SYSTEM
------------------------ */
-
-function enablePuzzleDrag(
-piece
-){
-
 piece.addEventListener(
 "pointerdown",
 startDrag
 );
 
-}
+});
 
-/* -----------------------
-POINTER START
------------------------ */
+}
 
 function startDrag(e){
 
@@ -797,10 +601,6 @@ dropPiece
 
 }
 
-/* -----------------------
-MOVE PIECE
------------------------ */
-
 function movePiece(e){
 
 if(!draggedPiece) return;
@@ -813,65 +613,6 @@ draggedPiece.style.top =
 
 }
 
-/* -----------------------
-INTRO -> CREATE PUZZLEfunction snapPieceToSlot(
-piece,
-slot
-){
-
-playCorrect();
-
-showTick();
-
-piece.removeAttribute("style");
-
-piece.className =
-"puzzlePiece";
-
-piece.style.position =
-"absolute";
-
-piece.style.left = "0";
-
-piece.style.top = "0";
-
-piece.style.width = "100%";
-
-piece.style.height = "100%";
-
-piece.style.borderRadius = "0";
-
-piece.style.cursor =
-"default";
-
-slot.appendChild(piece);
-
-completedPieces++;
-
-speak("Good job!");
-
-if(completedPieces === 6){
-
-setTimeout(()=>{
-
-puzzleComplete();
-
-},1000);
-
-}
-
-}
------------------------ */
-
-setTimeout(()=>{
-
-createPuzzle();
-
-},5200);
-/* -----------------------
-DROP PIECE
------------------------ */
-
 function dropPiece(e){
 
 if(!draggedPiece) return;
@@ -881,8 +622,6 @@ let placed = false;
 slots.forEach(slot=>{
 
 if(placed) return;
-
-/* SLOT ALREADY FILLED */
 
 if(
 slot.querySelector(
@@ -897,8 +636,6 @@ slot.getBoundingClientRect();
 
 const pieceRect =
 draggedPiece.getBoundingClientRect();
-
-/* OVERLAP CHECK */
 
 const overlap =
 
@@ -931,8 +668,6 @@ const pieceNumber =
 parseInt(
 draggedPiece.dataset.correct
 );
-
-/* CORRECT PLACE */
 
 if(
 correctSlot ===
@@ -968,10 +703,6 @@ cleanupDrag();
 
 }
 
-/* -----------------------
-SNAP TO SLOT
------------------------ */
-
 function snapPieceToSlot(
 piece,
 slot
@@ -981,7 +712,14 @@ playCorrect();
 
 showTick();
 
-piece.removeAttribute("style");
+piece.removeEventListener(
+"pointerdown",
+startDrag
+);
+
+piece.removeAttribute(
+"style"
+);
 
 piece.className =
 "puzzlePiece";
@@ -990,11 +728,9 @@ piece.style.position =
 "absolute";
 
 piece.style.left = "0";
-
 piece.style.top = "0";
 
 piece.style.width = "100%";
-
 piece.style.height = "100%";
 
 piece.style.borderRadius = "0";
@@ -1006,7 +742,9 @@ slot.appendChild(piece);
 
 completedPieces++;
 
-speak("Good job!");
+speak(
+"Good job!"
+);
 
 if(completedPieces === 6){
 
@@ -1019,11 +757,6 @@ puzzleComplete();
 }
 
 }
-
-/* -----------------------
-WRONG SLOT
------------------------ */
-
 function wrongPlacement(){
 
 playWrong();
@@ -1038,16 +771,13 @@ returnPieceHome();
 
 }
 
-/* -----------------------
-RETURN TO SIDE COLUMN
------------------------ */
-
 function returnPieceHome(){
 
 draggedPiece.style.position =
 "relative";
 
 draggedPiece.style.left = "";
+
 draggedPiece.style.top = "";
 
 draggedPiece.style.width =
@@ -1078,10 +808,6 @@ draggedPiece
 
 }
 
-/* -----------------------
-CLEANUP DRAG
------------------------ */
-
 function cleanupDrag(){
 
 if(!draggedPiece) return;
@@ -1100,10 +826,6 @@ draggedPiece = null;
 
 }
 
-/* -----------------------
-PUZZLE COMPLETE
------------------------ */
-
 function puzzleComplete(){
 
 playCorrect();
@@ -1114,15 +836,10 @@ speak(
 "Fantastic. You completed the spider puzzle."
 );
 
-const board =
-document.getElementById(
-"puzzleBoard"
-);
-
-board.style.transform =
+puzzleBoard.style.transform =
 "scale(1.05)";
 
-board.style.transition =
+puzzleBoard.style.transition =
 "0.5s";
 
 setTimeout(()=>{
@@ -1132,10 +849,6 @@ showCelebration();
 },2000);
 
 }
-
-
-
-];
 
 function showCelebration(){
 
@@ -1165,10 +878,6 @@ startConfetti();
 
 }
 
-/* -----------------------
-PLAY AGAIN
------------------------ */
-
 document
 .getElementById(
 "playAgain"
@@ -1179,12 +888,23 @@ document
 
 location.reload();
 
-}
+});
+
+setTimeout(()=>{
+
+showScreen(
+puzzleScreen
 );
 
-/* -----------------------
-CONFETTI
------------------------ */
+speak(
+"Welcome to Arachnids. Complete the spider puzzle."
+);
+
+createPuzzle();
+
+},5000);
+
+/* CONFETTI */
 
 const confettiCanvas =
 document.getElementById(
@@ -1216,8 +936,8 @@ resizeConfetti
 const confettiPieces = [];
 
 for(
-let i=0;
-i<180;
+let i = 0;
+i < 180;
 i++
 ){
 
@@ -1232,13 +952,13 @@ Math.random() *
 window.innerHeight,
 
 size:
-Math.random()*10 + 5,
+Math.random() * 10 + 5,
 
 speed:
-Math.random()*3 + 1,
+Math.random() * 3 + 1,
 
 rotation:
-Math.random()*360,
+Math.random() * 360,
 
 colour:
 
@@ -1250,7 +970,7 @@ colour:
 "#b8f2a5"
 ][
 Math.floor(
-Math.random()*5
+Math.random() * 5
 )
 ]
 
@@ -1318,15 +1038,7 @@ animateConfetti
 
 }
 
-/* -----------------------
-START POSITIONS
------------------------ */
-
-currentX = startX;
-currentY = startY;
-
 </script>
 
 </body>
 </html>
-
