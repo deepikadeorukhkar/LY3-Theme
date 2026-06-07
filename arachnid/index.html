@@ -400,16 +400,7 @@ color:#5b4b8a;
 Game 1: Complete the spider puzzle
 </p>
 
-<p style="
-font-size:24px;
-margin-top:15px;
-text-align:center;
-color:#5b4b8a;
-">
-Game 2: Help the spider find its way to the web
-</p>
-
-</div>>
+</div>
 
 <!-- PUZZLE -->
 
@@ -444,38 +435,6 @@ class="pieceColumn">
 </div>
 
 </div>
-
-<!-- MAZE -->
-
-<div id="mazeScreen" class="screen">
-
-<h2>Game 2: Help the spider find its way to the web</h2>
-
-<div id="mazeWrapper">
-
-<img
-id="mazeImage"
-src="assets/maze-reference.png">
-
-<img
-id="mazeSpider"
-src="assets/spiderimage.png">
-
-<img
-id="webGoal"
-src="assets/web.png">
-
-</div>
-
-<button
-id="restartMaze"
-style="margin-top:20px;display:none;">
-Try Again
-</button>
-
-</div>
-
-<!-- CELEBRATION -->
 
 <div
 id="celebrationScreen"
@@ -855,7 +814,53 @@ draggedPiece.style.top =
 }
 
 /* -----------------------
-INTRO -> CREATE PUZZLE
+INTRO -> CREATE PUZZLEfunction snapPieceToSlot(
+piece,
+slot
+){
+
+playCorrect();
+
+showTick();
+
+piece.removeAttribute("style");
+
+piece.className =
+"puzzlePiece";
+
+piece.style.position =
+"absolute";
+
+piece.style.left = "0";
+
+piece.style.top = "0";
+
+piece.style.width = "100%";
+
+piece.style.height = "100%";
+
+piece.style.borderRadius = "0";
+
+piece.style.cursor =
+"default";
+
+slot.appendChild(piece);
+
+completedPieces++;
+
+speak("Good job!");
+
+if(completedPieces === 6){
+
+setTimeout(()=>{
+
+puzzleComplete();
+
+},1000);
+
+}
+
+}
 ----------------------- */
 
 setTimeout(()=>{
@@ -976,33 +981,34 @@ playCorrect();
 
 showTick();
 
+piece.removeAttribute("style");
+
+piece.className =
+"puzzlePiece";
+
 piece.style.position =
 "absolute";
 
 piece.style.left = "0";
+
 piece.style.top = "0";
 
 piece.style.width = "100%";
+
 piece.style.height = "100%";
 
-piece.style.margin = "0";
+piece.style.borderRadius = "0";
 
 piece.style.cursor =
 "default";
 
-slot.appendChild(
-piece
-);
+slot.appendChild(piece);
 
 completedPieces++;
 
-speak(
-"Good job!"
-);
+speak("Good job!");
 
-if(
-completedPieces === 6
-){
+if(completedPieces === 6){
 
 setTimeout(()=>{
 
@@ -1121,327 +1127,15 @@ board.style.transition =
 
 setTimeout(()=>{
 
-showScreen(
-mazeScreen
-);
-
-initialiseMaze();
-
-speak(
-"Now help the spider find its web."
-);
+showCelebration();
 
 },2000);
 
 }
 
-/* -----------------------
-MAZE VARIABLES
------------------------ */
 
-const mazeSpider =
-document.getElementById(
-"mazeSpider"
-);
 
-const webGoal =
-document.getElementById(
-"webGoal"
-);
-
-const mazeWrapper =
-document.getElementById(
-"mazeWrapper"
-);
-
-const restartMaze =
-document.getElementById(
-"restartMaze"
-);
-
-let mazeDragging =
-false;
-
-let startX = 20;
-let startY = 20;
-
-let currentX = 20;
-let currentY = 20;
-
-/* -----------------------
-INITIALISE MAZE
------------------------ */
-
-function initialiseMaze(){
-
-mazeSpider.style.left =
-startX + "px";
-
-mazeSpider.style.top =
-startY + "px";
-
-mazeSpider.style.transform =
-"rotate(0deg)";
-
-mazeSpider.addEventListener(
-"pointerdown",
-startMazeDrag
-);
-
-}
-
-/* -----------------------
-START MAZE DRAG
------------------------ */
-
-function startMazeDrag(e){
-
-mazeDragging = true;
-
-mazeSpider.setPointerCapture(
-e.pointerId
-);
-
-mazeSpider.addEventListener(
-"pointermove",
-moveMazeSpider
-);
-
-mazeSpider.addEventListener(
-"pointerup",
-stopMazeDrag
-);
-
-}
-
-/* -----------------------
-STOP MAZE DRAG
------------------------ */
-
-function stopMazeDrag(){
-
-mazeDragging = false;
-
-mazeSpider.removeEventListener(
-"pointermove",
-moveMazeSpider
-);
-
-mazeSpider.removeEventListener(
-"pointerup",
-stopMazeDrag
-);
-
-}
-
-/* -----------------------
-MOVE SPIDER
------------------------ */
-
-function checkMaze(){
-
-const spiderRect =
-mazeSpider.getBoundingClientRect();
-
-const webRect =
-webGoal.getBoundingClientRect();
-
-const reachedWeb =
-
-spiderRect.right >
-webRect.left + 20
-
-&&
-
-spiderRect.left <
-webRect.right - 20
-
-&&
-
-spiderRect.bottom >
-webRect.top + 20
-
-&&
-
-spiderRect.top <
-webRect.bottom - 20;
-
-if(reachedWeb){
-
-mazeSuccess();
-
-return;
-
-}
-
-const x =
-parseInt(
-mazeSpider.style.left
-);
-
-const y =
-parseInt(
-mazeSpider.style.top
-);
-
-const maxX =
-mazeWrapper.clientWidth - 60;
-
-const maxY =
-mazeWrapper.clientHeight - 60;
-
-/* Outer boundary */
-
-if(
-
-x < 10 ||
-y < 10 ||
-x > maxX ||
-y > maxY
-
-){
-
-mazeFail();
-
-return;
-
-}
-
-/* Internal maze walls
-Approximation based on uploaded maze image */
-
-if(
-
-(x>120 && x<170 && y<140)
-
-||
-
-(x>180 && x<220 && y>80 && y<200)
-
-||
-
-(x>80 && x<200 && y>150 && y<180)
-
-||
-
-(x>260 && x<300 && y>120 && y<290)
-
-||
-
-(x>180 && x<320 && y>230 && y<260)
-
-){
-
-mazeFail();
-
-}
-
-}
-
-/* -----------------------
-MAZE FAIL
------------------------ */
-
-function mazeFail(){
-
-mazeDragging = false;
-
-playWrong();
-
-showCross();
-
-restartMaze.style.display =
-"inline-block";
-
-mazeSpider.style.left =
-startX + "px";
-
-mazeSpider.style.top =
-startY + "px";
-
-mazeSpider.style.transform =
-"rotate(0deg)";
-
-currentX = startX;
-currentY = startY;
-
-speak(
-"Oops. Try again."
-);
-
-}
-
-/* -----------------------
-RESTART BUTTON
------------------------ */
-
-restartMaze.addEventListener(
-"click",
-()=>{
-
-restartMaze.style.display =
-"none";
-
-mazeSpider.style.left =
-startX + "px";
-
-mazeSpider.style.top =
-startY + "px";
-
-mazeSpider.style.transform =
-"rotate(0deg)";
-
-currentX = startX;
-currentY = startY;
-
-speak(
-"Help the spider find the web."
-);
-
-}
-);
-
-/* -----------------------
-MAZE SUCCESS
------------------------ */
-
-function mazeSuccess(){
-
-mazeDragging = false;
-
-playCorrect();
-
-showTick();
-
-speak(
-"You helped the spider find its web."
-);
-
-setTimeout(()=>{
-
-showCelebration();
-
-},1500);
-
-}
-
-/* -----------------------
-CELEBRATION
------------------------ */
-
-const celebrationMessages = [
-
-"You helped the spider find its web!",
-
-"Great Job!",
-
-"Excellent!",
-
-"Fantastic Work!",
-
-"Super Spider Helper!"
-
-];;
+];
 
 function showCelebration(){
 
@@ -1635,3 +1329,4 @@ currentY = startY;
 
 </body>
 </html>
+
