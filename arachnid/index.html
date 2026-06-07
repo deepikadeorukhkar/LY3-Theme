@@ -121,7 +121,7 @@ overflow:hidden;
 background-image:url('assets/spiderimage.png');
 background-size:300% 200%;
 background-repeat:no-repeat;
-opacity:0.25;
+opacity:1;
 }
 
 .puzzlePiece{
@@ -718,12 +718,8 @@ piece.style.backgroundSize =
 
 slot.appendChild(piece);
 
-/* Hide guide image underneath */
-
-slot.style.backgroundImage =
-"none";
-
-slot.style.border = "none";
+/* Remove the faded guide from this slot */
+slot.style.backgroundImage = "none";
 
 completedPieces++;
 
